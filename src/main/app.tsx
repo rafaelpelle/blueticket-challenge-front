@@ -5,7 +5,7 @@ import { Router, Switch } from 'react-router-dom'
 import { RootReducerInterface, UserInterface } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
-// import PageHeader from '../components/PageHeader'
+import PageHeader from '../components/PageHeader'
 // import DrawerMenu from '../components/DrawerMenu'
 // import Footer from '../components/Footer'
 
@@ -38,8 +38,8 @@ class App extends React.Component<Props, State> {
 		return (
 			<Router history={ history }>
 				<div>
-					{ /* <PageHeader />
-					<DrawerMenu /> */ }
+					<PageHeader />
+					{ /* <DrawerMenu /> */ }
 					<Switch>
 						<MyRoutes user={ this.state.user } />
 					</Switch>

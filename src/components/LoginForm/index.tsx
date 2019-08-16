@@ -8,7 +8,7 @@ import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
 import Button from '../Button'
 
-const userPlaceholder = require('../../../public/assets/images/user-placeholder.png')
+const userPlaceholder = require('../../../public/assets/images/user_placeholder.png')
 
 const LoginForm: React.FC<Props> = (props) => {
 	const [loading, setLoading] = React.useState(false)
