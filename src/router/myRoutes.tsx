@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Redirect, Route } from 'react-router'
-import { UserInterface } from '../utils/interfaces'
+import { User } from '../utils/interfaces'
 import HomePage from '../pages/HomePage'
 import LogoutPage from '../pages/LogoutPage'
 import LoginPage from '../pages/LoginPage'
@@ -26,13 +26,10 @@ const MyRoutes: React.FC<Props> = (props) => {
 			<Route
 				exact={ true }
 				path='/stocks'
-				render={ () => (user ? <StocksPage /> : <Redirect to='/login' />) }
+				// render={ () => (user ? <StocksPage /> : <Redirect to='/login' />) }
+				render={ () => <StocksPage /> }
 			/>
-			<Route
-				exact={ true }
-				path='/currencies'
-				render={ () => (user ? <CurrenciesPage /> : <Redirect to='/login' />) }
-			/>
+			<Route exact={ true } path='/currencies' render={ () => <CurrenciesPage /> } />
 		</div>
 	)
 }
@@ -50,7 +47,7 @@ const divStyle = {
 interface OwnState {}
 
 interface OwnProps {
-	user: UserInterface
+	user: User
 }
 
 interface StateProps {}

@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack'
 import { useInput, useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { UserInterface, UserLoginInterface } from '../../utils/interfaces'
+import { User, UserLoginInterface } from '../../utils/interfaces'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
 import Button from '../Button'
@@ -23,13 +23,13 @@ const RegisterForm: React.FC<Props> = (props) => {
 		if (!anyFormError && !anyFormEmpty) {
 			setLoading(true)
 			await sleep(1000) // simulate a API request
-			const newUser: UserInterface = {
+			const newUser: User = {
 				name: useName.value,
 				email: useEmail.value,
 				password: usePassword.value, // TO-DO use bcrypt later
 			}
 			const stringUsers = localStorage.getItem('registeredUsers')
-			const registeredUsers: UserInterface[] = JSON.parse(stringUsers) || []
+			const registeredUsers: User[] = JSON.parse(stringUsers) || []
 			const alreadyRegistered = registeredUsers.some((user) => user.email === newUser.email)
 			if (alreadyRegistered) {
 				enqueueSnackbar(`E-mail já cadastrado!`, { variant: 'error' })

@@ -9,7 +9,7 @@ import {
 	RootReducerInterface,
 	CloseDrawerInterface,
 	OpenDrawerInterface,
-	UserInterface,
+	User,
 } from '../../utils/interfaces'
 
 const DrawerMenu: React.FC<Props> = (props) => {
@@ -85,7 +85,7 @@ interface OwnProps {}
 
 interface StateProps {
 	drawerIsOpen: boolean
-	user: UserInterface
+	user: User
 }
 interface DispatchProps {
 	openDrawerMenu: OpenDrawerInterface

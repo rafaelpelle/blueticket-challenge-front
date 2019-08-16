@@ -31,7 +31,7 @@ const FormInput: React.FC<Props> = (props) => {
 			variant={ variant }
 			style={ style }
 			fullWidth={ fullWidth }
-			error={ error && error.length > 0 }
+			error={ !!error }
 			disabled={ disabled }
 		>
 			<InputLabel>{ label }</InputLabel>

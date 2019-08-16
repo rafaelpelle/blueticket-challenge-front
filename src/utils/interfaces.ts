@@ -7,7 +7,7 @@ export interface RootReducerInterface {
 }
 
 export interface UserReducerInterface {
-	user: UserInterface
+	user: User
 }
 
 export interface ControllerReducerInterface {
@@ -16,15 +16,22 @@ export interface ControllerReducerInterface {
 /////////////////////////////////////////////////////////////////
 //////////////////////// ACTION CREATORS ////////////////////////
 /////////////////////////////////////////////////////////////////
-export type UserLoginInterface = (user: UserInterface) => { type: string; payload: UserInterface }
+export type UserLoginInterface = (user: User) => { type: string; payload: User }
 export type UserLogoutInterface = () => { type: string }
 export type OpenDrawerInterface = () => { type: string }
 export type CloseDrawerInterface = () => { type: string }
 /////////////////////////////////////////////////////////////////
 /////////////////////////// MODEL ///////////////////////////////
 /////////////////////////////////////////////////////////////////
-export interface UserInterface {
+export interface User {
 	name: string
 	email: string
 	password: string
+}
+
+export interface Currency {
+	name: string
+	buy: number
+	sell: number
+	variation: number
 }

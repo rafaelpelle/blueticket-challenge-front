@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Router, Switch } from 'react-router-dom'
-import { RootReducerInterface, UserInterface } from '../utils/interfaces'
+import { RootReducerInterface, User } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
@@ -67,13 +67,13 @@ export default connect<StateProps, DispatchProps, OwnProps>(
 ///////////////////////////////// INTERFACES /////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 interface OwnState {
-	user: UserInterface
+	user: User
 }
 
 interface OwnProps {}
 
 interface StateProps {
-	user: UserInterface
+	user: User
 }
 
 interface DispatchProps {}

@@ -1,6 +1,6 @@
-import { UserInterface } from '../../../utils/interfaces'
+import { User } from '../../../utils/interfaces'
 
-export const userLogin = (user: UserInterface) => ({
+export const userLogin = (user: User) => ({
 	type: 'USER_LOGGED_IN',
 	payload: user,
 })

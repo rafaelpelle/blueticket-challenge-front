@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSnackbar } from 'notistack'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { UserInterface, UserLoginInterface } from '../../utils/interfaces'
+import { User, UserLoginInterface } from '../../utils/interfaces'
 import { useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
@@ -23,18 +23,19 @@ const LoginForm: React.FC<Props> = (props) => {
 			setLoading(true)
 			await sleep(1000) // simulate a API request
 			const stringUsers = localStorage.getItem('registeredUsers')
-			const registeredUsers: UserInterface[] = JSON.parse(stringUsers) || []
+			const registeredUsers: User[] = JSON.parse(stringUsers) || []
 			const user = registeredUsers.find((user) => {
 				return user.email === useEmail.value && user.password === usePassword.value // TODO use bcrypt later
 			})
 			if (!user) {
 				enqueueSnackbar(`Usuário ou senha errados!`, { variant: 'error' })
+				setLoading(false)
 			} else {
+				setLoading(false)
 				props.userLogin(user)
 				history.push('/')
 				enqueueSnackbar(`Login feito com sucesso. Bem-vindo!`, { variant: 'success' })
 			}
-			setLoading(false)
 		}
 	}
 
