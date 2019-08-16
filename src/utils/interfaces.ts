@@ -17,6 +17,7 @@ export interface ControllerReducerInterface {
 //////////////////////// ACTION CREATORS ////////////////////////
 /////////////////////////////////////////////////////////////////
 export type UserLoginInterface = (user: UserInterface) => { type: string; payload: UserInterface }
+export type UserLogoutInterface = () => { type: string }
 export type OpenDrawerInterface = () => { type: string }
 export type CloseDrawerInterface = () => { type: string }
 /////////////////////////////////////////////////////////////////
