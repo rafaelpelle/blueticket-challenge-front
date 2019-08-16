@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { useSnackbar } from 'notistack'
+import { useInput, useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { useInput, useEmailInput, usePasswordInput } from '../../hooks/UseInput'
+import { UserInterface } from '../../utils/interfaces'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
 import Button from '../Button'
@@ -22,13 +23,28 @@ const RegisterForm: React.FC<Props> = (props) => {
 		if (!anyFormError && !anyFormEmpty) {
 			setLoading(true)
 			await sleep(1000) // simulate a API request
-			// await registerUser(userInfo)
-			enqueueSnackbar(`Seja bem-vindo!`, { variant: 'success' })
+			const newUser: UserInterface = {
+				name: useName.value,
+				email: useEmail.value,
+				password: usePassword.value, // TO-DO use bcrypt later
+			}
+			const stringUsers = localStorage.getItem('registeredUsers')
+			const registeredUsers: UserInterface[] = JSON.parse(stringUsers) || []
+			const alreadyRegistered = registeredUsers.some((user) => user.email === newUser.email)
+			if (alreadyRegistered) {
+				enqueueSnackbar(`E-mail já cadastrado!`, { variant: 'error' })
+			} else {
+				registeredUsers.push(newUser)
+				localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers))
+				props.userLogin(newUser)
+				history.push('/')
+				enqueueSnackbar(`Conta criada com sucesso. Bem-vindo!`, { variant: 'success' })
+			}
 			setLoading(false)
 		}
 	}
 
-	function handleLogin() {
+	const handleLogin = () => {
 		history.push('/login')
 	}
 
@@ -108,7 +124,9 @@ const imgStyle = {
 /////////////////////////////////////////////////////////////////
 interface OwnState {}
 
-interface OwnProps {}
+interface OwnProps {
+	userLogin: any
+}
 
 interface StateProps {}
 

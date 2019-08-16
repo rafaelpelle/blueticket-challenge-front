@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Router, Switch } from 'react-router-dom'
-import { RootReducerInterface } from '../utils/interfaces'
+import { RootReducerInterface, UserInterface } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 // import PageHeader from '../components/PageHeader'
@@ -12,10 +12,10 @@ import MyRoutes from '../router/myRoutes'
 require('./app.css')
 
 class App extends React.Component<Props, State> {
-	// constructor(props: Props) {
-	// 	super(props)
-	// 	this.state = { loginInfo: '' }
-	// }
+	constructor(props: Props) {
+		super(props)
+		this.state = { user: null }
+	}
 
 	componentDidMount() {
 		// listen to the service-worker registration.onupdatefound
@@ -25,9 +25,9 @@ class App extends React.Component<Props, State> {
 		history.listen(() => this.scrollToTheTop())
 	}
 
-	// componentWillReceiveProps(props: Props) {
-	// 	this.setState({ loginInfo: props.loginInfo })
-	// }
+	componentWillReceiveProps(props: Props) {
+		this.setState({ user: props.user })
+	}
 
 	scrollToTheTop = () => {
 		document.body.scrollTop = 0 // For Safari
@@ -41,7 +41,7 @@ class App extends React.Component<Props, State> {
 					{ /* <PageHeader />
 					<DrawerMenu /> */ }
 					<Switch>
-						<MyRoutes />
+						<MyRoutes user={ this.state.user } />
 					</Switch>
 					{ /* <Footer /> */ }
 				</div>
@@ -50,7 +50,9 @@ class App extends React.Component<Props, State> {
 	}
 }
 
-const mapStateToProps = (state: RootReducerInterface) => ({})
+const mapStateToProps = (state: RootReducerInterface) => ({
+	user: state.UserReducer.user,
+})
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
@@ -64,11 +66,15 @@ export default connect<StateProps, DispatchProps, OwnProps>(
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// INTERFACES /////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-interface OwnState {}
+interface OwnState {
+	user: UserInterface
+}
 
 interface OwnProps {}
 
-interface StateProps {}
+interface StateProps {
+	user: UserInterface
+}
 
 interface DispatchProps {}
 
