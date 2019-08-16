@@ -2,42 +2,50 @@ import * as React from 'react'
 import { useSnackbar } from 'notistack'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { useEmailInput, usePasswordInput } from '../../hooks/UseInput'
+import { useInput, useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
 import Button from '../Button'
 
 const userPlaceholder = require('../../../public/assets/images/user-placeholder.png')
 
-const LoginForm: React.FC<Props> = (props) => {
+const RegisterForm: React.FC<Props> = (props) => {
 	const [loading, setLoading] = React.useState(false)
+	const useName = useInput('')
 	const useEmail = useEmailInput('')
 	const usePassword = usePasswordInput('')
 	const { enqueueSnackbar } = useSnackbar()
 
-	async function handleLogin() {
-		const anyFormEmpty = useEmail.empty || usePassword.empty
-		const anyFormError = useEmail.error || usePassword.error
+	async function handleRegister() {
+		const anyFormEmpty = useName.empty || useEmail.empty || usePassword.empty
+		const anyFormError = useName.error || useEmail.error || usePassword.error
 		if (!anyFormError && !anyFormEmpty) {
 			setLoading(true)
 			await sleep(1000) // simulate a API request
-			// await userLogin(loginInfo)
+			// await registerUser(userInfo)
 			enqueueSnackbar(`Seja bem-vindo!`, { variant: 'success' })
 			setLoading(false)
 		}
 	}
 
-	function handleRegister() {
-		history.push('/register')
+	function handleLogin() {
+		history.push('/login')
 	}
 
 	const handleKeyPress = (event: any) => {
-		event.key === 'Enter' && handleLogin()
+		event.key === 'Enter' && handleRegister()
 	}
 
 	return (
 		<div>
 			<img src={ userPlaceholder } style={ imgStyle } alt='User' />
+			<FormInput
+				label='NOME'
+				style={ inputStyle }
+				onKeyPress={ handleKeyPress }
+				{ ...useName }
+				fullWidth
+			/>
 			<FormInput
 				label='E-MAIL'
 				style={ inputStyle }
@@ -53,37 +61,37 @@ const LoginForm: React.FC<Props> = (props) => {
 				fullWidth
 			/>
 			<Button
-				content='Entrar'
+				content='Cadastrar'
 				variant='contained'
 				color='primary'
-				style={ loginButtonStyle }
-				onClick={ handleLogin }
+				style={ registerButtonStyle }
+				onClick={ handleRegister }
 				loading={ loading }
 				fullWidth
 			/>
 			<Button
-				content='Não tem conta? Crie uma!'
+				content='Já tem conta? Entre!'
 				variant='outlined'
 				color='primary'
-				style={ buttonStyle }
-				onClick={ handleRegister }
+				style={ loginButtonStyle }
+				onClick={ handleLogin }
 				fullWidth
 			/>
 		</div>
 	)
 }
 
-export default LoginForm
+export default RegisterForm
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
 /////////////////////////////////////////////////////////////////
 const inputStyle = {
 	marginTop: '0.5em',
 }
-const loginButtonStyle = {
+const registerButtonStyle = {
 	marginTop: '3em',
 }
-const buttonStyle = {
+const loginButtonStyle = {
 	marginTop: '1em',
 }
 const imgStyle = {

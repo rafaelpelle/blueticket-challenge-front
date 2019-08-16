@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Redirect, Route } from 'react-router'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
+import RegisterPage from '../pages/RegisterPage'
 
 const MyRoutes: React.FC<Props> = (props) => {
 	const locationHash = window.location.hash
@@ -11,8 +12,8 @@ const MyRoutes: React.FC<Props> = (props) => {
 			<Route exact={ true } path='/' component={ HomePage } />
 			<Route exact={ true } path='/home' render={ () => <Redirect to='/' /> } />
 			<Route exact={ true } path='/login' component={ LoginPage } />
-			{ /* <Route exact={ true } path='/logout' component={ LogoutPage } />
-			<Route exact={ true } path='/register' component={ RegisterPage } /> */ }
+			<Route exact={ true } path='/register' component={ RegisterPage } />
+			{ /* <Route exact={ true } path='/logout' component={ LogoutPage } /> */ }
 		</div>
 	)
 }
