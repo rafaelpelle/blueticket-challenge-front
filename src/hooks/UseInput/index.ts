@@ -1,20 +1,8 @@
 import * as React from 'react'
-import axios from 'axios'
-import {
-	validCPF,
-	validEmail,
-	validBirthDate,
-	validZipCode,
-	validPassword,
-	validateNextAgency,
-	validateNextAccount,
-} from '../../utils/validators'
+import { validCPF, validEmail, validPassword } from '../../utils/validators'
 import {
 	handleCPF,
 	handleCellphone,
-	removePhoneMask,
-	handleZipCode,
-	handleDateMask,
 	removeWhiteSpaces,
 	removeNonNumericCharacters,
 } from '../../utils/stringParser'
@@ -39,7 +27,7 @@ export function usePhoneInput(initialValue: string) {
 	const [rawValue, setRawValue] = useState(initialValue)
 	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setPhone(handleCellphone(e.target.value))
-		setRawValue(removePhoneMask(e.target.value))
+		setRawValue(removeNonNumericCharacters(e.target.value))
 	}
 	return {
 		onChange: handleChange,
@@ -134,184 +122,5 @@ export function useEmailInput(initialValue: string) {
 		error,
 		onBlur: checkEmail,
 		empty: email.length < 1,
-	}
-}
-
-export function useAddress() {
-	const [loading, setLoading] = useState(false)
-	const [zipcode, setZip] = useState('')
-	const [zipcodeMask, setZipMask] = useState('')
-	const [zipError, setZipError] = useState('')
-	const [street, setStreet] = useState('')
-	const [district, setDistrict] = useState('')
-	const [city, setCity] = useState('')
-	const [number, setNumber] = useState('')
-	const [complement, setComplement] = useState('')
-	const [state, setState] = useState('')
-	async function handleZip(e: React.ChangeEvent<HTMLInputElement>) {
-		const { value } = e.target
-		setZip(removeNonNumericCharacters(value))
-		setZipMask(handleZipCode(value))
-		setZipError('')
-		if (removeNonNumericCharacters(value).length === 8) {
-			try {
-				setLoading(true)
-				const request = await axios.get(
-					`https://viacep.com.br/ws/${removeNonNumericCharacters(value)}/json/`
-				)
-				if (request.data.erro === true) {
-					setZipError('Este CEP não é válido')
-				}
-				setLoading(false)
-				setStreet(request.data.logradouro)
-				setDistrict(request.data.bairro)
-				setCity(request.data.localidade)
-				setState(request.data.uf)
-			} catch (error) {
-				console.error(error)
-				setLoading(false)
-				setZipError('Server error')
-			}
-		}
-	}
-	function handleChange(set: React.Dispatch<React.SetStateAction<string>>) {
-		return (e: React.ChangeEvent<HTMLInputElement>) => {
-			set(e.target.value)
-		}
-	}
-	function handleNumberChange(set: React.Dispatch<React.SetStateAction<string>>) {
-		return (e: React.ChangeEvent<HTMLInputElement>) => {
-			set(removeNonNumericCharacters(e.target.value))
-		}
-	}
-	function checkZip() {
-		!validZipCode(zipcode) && setZipError('Este CEP não é válido')
-	}
-	return {
-		zip: {
-			empty: !zipcodeMask,
-			onChange: handleZip,
-			rawValue: zipcode,
-			value: zipcodeMask,
-			type: 'tel',
-			error: zipError,
-			onBlur: checkZip,
-			maxLength: 9,
-			loading,
-		},
-		street: {
-			onChange: handleChange(setStreet),
-			value: street,
-		},
-		number: {
-			onChange: handleNumberChange(setNumber),
-			value: number,
-			type: 'tel',
-		},
-		complement: {
-			onChange: handleChange(setComplement),
-			value: complement,
-		},
-		district: {
-			onChange: handleChange(setDistrict),
-			value: district,
-		},
-		city: {
-			onChange: handleChange(setCity),
-			value: city,
-		},
-		state: {
-			onChange: handleChange(setState),
-			value: state,
-		},
-	}
-}
-
-export function useAccountInput(initialValue: string) {
-	const [account, setAccount] = useState(initialValue)
-	const [rawValue, setRawValue] = useState('')
-	const [error, setError] = useState('')
-	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setError('')
-		const { value } = e.target
-		const nextAccount = removeNonNumericCharacters(value)
-		setRawValue(nextAccount)
-		let visibleNextAccount = nextAccount
-		if (visibleNextAccount.length >= 2) {
-			visibleNextAccount = visibleNextAccount.replace(
-				/..$/,
-				visibleNextAccount.charAt(visibleNextAccount.length - 2) +
-					'-' +
-					visibleNextAccount.charAt(visibleNextAccount.length - 1)
-			)
-		}
-		setAccount(visibleNextAccount)
-	}
-	function validateAccount(e: React.FocusEvent<HTMLInputElement>) {
-		const { value } = e.target
-		if (!validateNextAccount(value)) {
-			setError('Esta conta é inválida.')
-		}
-	}
-	return {
-		onChange: handleChange,
-		onBlur: validateAccount,
-		value: account,
-		rawValue,
-		error,
-		empty: account.length < 1,
-	}
-}
-
-export function useAgencyInput(initialValue: string) {
-	const [agency, setAgency] = useState(initialValue)
-	const [error, setError] = useState('')
-	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-		const { value } = e.target
-		setError('')
-		if (value.length <= 4) {
-			setAgency(removeNonNumericCharacters(value))
-		}
-	}
-	function validateAgency(e: React.FocusEvent<HTMLInputElement>) {
-		const { value } = e.target
-		if (!validateNextAgency(value)) {
-			setError('Esta agência é inválida.')
-		}
-	}
-	return {
-		onChange: handleChange,
-		onBlur: validateAgency,
-		value: agency,
-		error,
-		empty: agency.length < 1,
-	}
-}
-
-export function useDateInput(initialValue: string) {
-	const [rawDate, setRawDate] = useState(initialValue)
-	const [date, setDate] = useState(initialValue)
-	const [error, setError] = useState('')
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target
-		const raw = removeNonNumericCharacters(value)
-		setError('')
-		setRawDate(raw)
-		setDate(handleDateMask(raw))
-	}
-	const validateDate = () => {
-		if (!validBirthDate(date) || date.length < 10) {
-			setError('Esta data é inválida.')
-		}
-	}
-
-	return {
-		onChange: handleChange,
-		onBlur: validateDate,
-		value: date,
-		rawValue: rawDate,
-		error,
-		empty: !date,
-		maxLength: 10,
 	}
 }

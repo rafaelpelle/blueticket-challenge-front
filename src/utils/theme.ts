@@ -6,14 +6,14 @@ export const toastTimeout = 3000
 export const moneyGreen = '#4caf50'
 
 export const appTheme = createMuiTheme({
-	// palette: {
-	// 	primary: {
-	// 		main: customTheme.colors.primaryColor,
-	// 	},
-	// 	secondary: {
-	// 		main: customTheme.colors.secondaryColor,
-	// 	},
-	// },
+	palette: {
+		primary: {
+			main: '#7159C1',
+		},
+		secondary: {
+			main: '#FFFFFF',
+		},
+	},
 	typography: {
 		fontFamily: [
 			'Montserrat',

@@ -117,8 +117,8 @@ module.exports = env = {
 			name: 'blueticket-challenge-front',
 			short_name: 'challenge',
 			description: 'blueticket-challenge-front',
-			background_color: '#26232F',
-			theme_color: '#26232F',
+			background_color: '#7159c1',
+			theme_color: '#7159c1',
 			start_url: '/',
 			icons: [
 				{
