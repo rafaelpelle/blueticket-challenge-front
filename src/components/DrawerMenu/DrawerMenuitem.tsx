@@ -1,10 +1,12 @@
 import * as React from 'react'
-import { history } from '../../../router/history'
+import { history } from '../../router/history'
 import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 
 const menuItens: any = {
 	home: { text: 'INÍCIO', iconName: 'home_rounded' },
+	stocks: { text: 'AÇÕES', iconName: 'trending_up_rounded' },
+	currencies: { text: 'MOÉDAS', iconName: 'attach_money_rounded' },
 	login: { text: 'ENTRAR', iconName: 'exit_to_app_rounded' },
 	register: { text: 'CADASTRAR', iconName: 'person_add_rounded' },
 	logout: { text: 'SAIR', iconName: 'exit_to_app_rounded' },
@@ -58,7 +60,13 @@ const iconStyle = {
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// INTERFACES /////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-export type RouteOptionsType = '/home' | '/login' | '/register' | '/logout'
+export type RouteOptionsType =
+	| '/home'
+	| '/login'
+	| '/register'
+	| '/logout'
+	| '/stocks'
+	| '/currencies'
 
 interface OwnState {}
 

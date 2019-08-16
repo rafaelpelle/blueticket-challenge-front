@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { isMobile, pageHeaderHeight } from '../../utils/theme'
 import { openDrawerMenu, closeDrawerMenu } from '../../redux/ActionCreators/ControllerActions'
-import DrawerMenuItem from './DrawerMenuItem'
+import DrawerMenuItem from './DrawerMenuitem'
 import { SwipeableDrawer, Divider } from '@material-ui/core'
 import {
 	RootReducerInterface,
@@ -42,6 +42,8 @@ const DrawerMenu: React.FC<Props> = (props) => {
 				{ user && (
 					<React.Fragment>
 						<DrawerMenuItem route='/home' handleCloseMenu={ handleOnClose } />
+						<DrawerMenuItem route='/stocks' handleCloseMenu={ handleOnClose } />
+						<DrawerMenuItem route='/currencies' handleCloseMenu={ handleOnClose } />
 						<Divider style={ dividerStyle } />
 						<DrawerMenuItem route='/logout' handleCloseMenu={ handleOnClose } />
 					</React.Fragment>
