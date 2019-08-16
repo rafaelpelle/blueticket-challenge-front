@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSnackbar } from 'notistack'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { UserInterface } from '../../utils/interfaces'
+import { UserInterface, UserLoginInterface } from '../../utils/interfaces'
 import { useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
@@ -112,7 +112,7 @@ const imgStyle = {
 interface OwnState {}
 
 interface OwnProps {
-	userLogin: any
+	userLogin: UserLoginInterface
 }
 
 interface StateProps {}

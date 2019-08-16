@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack'
 import { useInput, useEmailInput, usePasswordInput } from '../../hooks/UseInput'
 import { history } from '../../router/history'
 import { sleep } from '../../utils/time'
-import { UserInterface } from '../../utils/interfaces'
+import { UserInterface, UserLoginInterface } from '../../utils/interfaces'
 import FormInput from '../FormInput'
 import PasswordInput from '../PasswordInput'
 import Button from '../Button'
@@ -125,7 +125,7 @@ const imgStyle = {
 interface OwnState {}
 
 interface OwnProps {
-	userLogin: any
+	userLogin: UserLoginInterface
 }
 
 interface StateProps {}

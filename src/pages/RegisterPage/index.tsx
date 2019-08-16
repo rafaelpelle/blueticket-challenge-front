@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { RootReducerInterface } from '../../utils/interfaces'
+import { RootReducerInterface, UserLoginInterface } from '../../utils/interfaces'
 import { userLogin } from '../../redux/ActionCreators/UserActions'
 import RegisterForm from '../../components/RegisterForm'
 import Paper from '@material-ui/core/Paper'
@@ -35,7 +35,7 @@ interface OwnProps {}
 interface StateProps {}
 
 interface DispatchProps {
-	userLogin: any
+	userLogin: UserLoginInterface
 }
 
 type Props = StateProps & DispatchProps & OwnProps
