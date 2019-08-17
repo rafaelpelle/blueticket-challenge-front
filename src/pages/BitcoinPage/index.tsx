@@ -2,7 +2,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../../utils/httpClient'
 import Typography from '@material-ui/core/Typography'
-import CryptoBoard from './CryptoBoard'
+import BitcoinBoard from './BitcoinBoard'
 import Loader from '../../components/Loader'
 
 const { useState, useEffect } = React
@@ -31,13 +31,13 @@ const CryptoPage: React.FC<Props> = (props) => {
 	return (
 		<div style={ containerStyle }>
 			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-				COTAÇÃO DAS CRIPTOMOEDAS
+				COTAÇÃO DO BITCOIN
 			</Typography>
 			{ loading && <Loader /> }
 			{ !loading && (
 				<div style={ gridStyle }>
 					{ Object.keys(cryptocurrencies).map((key: string) => (
-						<CryptoBoard cryptocurrency={ cryptocurrencies[key] } key={ key } />
+						<BitcoinBoard cryptocurrency={ cryptocurrencies[key] } key={ key } />
 					)) }
 				</div>
 			) }

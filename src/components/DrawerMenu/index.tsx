@@ -44,6 +44,7 @@ const DrawerMenu: React.FC<Props> = (props) => {
 						<DrawerMenuItem route='/home' handleCloseMenu={ handleOnClose } />
 						<DrawerMenuItem route='/stocks' handleCloseMenu={ handleOnClose } />
 						<DrawerMenuItem route='/currencies' handleCloseMenu={ handleOnClose } />
+						<DrawerMenuItem route='/bitcoin' handleCloseMenu={ handleOnClose } />
 						<Divider style={ dividerStyle } />
 						<DrawerMenuItem route='/logout' handleCloseMenu={ handleOnClose } />
 					</React.Fragment>

@@ -7,6 +7,7 @@ const menuItens: any = {
 	home: { text: 'INÍCIO', iconName: 'home_rounded' },
 	stocks: { text: 'AÇÕES', iconName: 'trending_up_rounded' },
 	currencies: { text: 'MOEDAS', iconName: 'attach_money_rounded' },
+	bitcoin: { text: 'BITCOIN', iconName: 'format_bold_rounded' },
 	login: { text: 'ENTRAR', iconName: 'exit_to_app_rounded' },
 	register: { text: 'CADASTRAR', iconName: 'person_add_rounded' },
 	logout: { text: 'SAIR', iconName: 'exit_to_app_rounded' },
@@ -67,6 +68,7 @@ export type RouteOptionsType =
 	| '/logout'
 	| '/stocks'
 	| '/currencies'
+	| '/bitcoin'
 
 interface OwnState {}
 
