@@ -1,3 +1,16 @@
+export const parseCurrencyName = (currency: string) => {
+	switch (currency) {
+		case 'Dollar':
+			return 'Dólar'
+		case 'Euro':
+			return 'Euro'
+		case 'Pound Sterling':
+			return 'Libra Esterlina'
+		case 'Argentine Peso':
+			return 'Peso Argentino'
+	}
+}
+
 export const handleMoneyFormat = (value: string | number, currency: string) => {
 	if (value === undefined || value === null) {
 		value = 0
@@ -65,7 +78,6 @@ export function handleZipCode(zipCode: string): string {
 export function removeLeftZeros(text: string) {
 	return text !== '' ? Number(text).toString() : ''
 }
-
 
 export const handleDateFormat = (timestamp: string | Date) => {
 	const options = { year: 'numeric', month: 'numeric', day: 'numeric' }

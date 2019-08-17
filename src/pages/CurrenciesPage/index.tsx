@@ -3,6 +3,7 @@ import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../../utils/httpClient'
 import Typography from '@material-ui/core/Typography'
 import CurrencyBoard from './CurrencyBoard'
+import Loader from '../../components/Loader'
 
 const { useState, useEffect } = React
 
@@ -21,6 +22,7 @@ const CurrenciesPage: React.FC<Props> = (props) => {
 			// const currenciesData = response.data.results.currencies
 			const currenciesData = require('../../utils/hardcodedData.json').results.currencies
 			delete currenciesData.source
+			delete currenciesData.BTC
 			setCurrencies(currenciesData)
 		} catch (e) {
 			console.error(e)
@@ -33,13 +35,13 @@ const CurrenciesPage: React.FC<Props> = (props) => {
 			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
 				COTAÇÃO DAS MOEDAS
 			</Typography>
+			{ loading && <Loader /> }
 			{ !loading && (
 				<div style={ gridStyle }>
 					<CurrencyBoard currency={ currencies.USD } />
 					<CurrencyBoard currency={ currencies.EUR } />
 					<CurrencyBoard currency={ currencies.GBP } />
 					<CurrencyBoard currency={ currencies.ARS } />
-					<CurrencyBoard currency={ currencies.BTC } />
 				</div>
 			) }
 		</div>
