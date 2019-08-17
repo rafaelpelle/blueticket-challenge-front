@@ -8,6 +8,8 @@ export const parseCurrencyName = (currency: string) => {
 			return 'Libra Esterlina'
 		case 'Argentine Peso':
 			return 'Peso Argentino'
+		default:
+			return currency
 	}
 }
 

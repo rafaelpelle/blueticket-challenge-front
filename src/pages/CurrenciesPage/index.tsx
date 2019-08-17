@@ -38,10 +38,9 @@ const CurrenciesPage: React.FC<Props> = (props) => {
 			{ loading && <Loader /> }
 			{ !loading && (
 				<div style={ gridStyle }>
-					<CurrencyBoard currency={ currencies.USD } />
-					<CurrencyBoard currency={ currencies.EUR } />
-					<CurrencyBoard currency={ currencies.GBP } />
-					<CurrencyBoard currency={ currencies.ARS } />
+					{ Object.keys(currencies).map((key: string) => (
+						<CurrencyBoard currency={ currencies[key] } />
+					)) }
 				</div>
 			) }
 		</div>
