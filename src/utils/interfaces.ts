@@ -35,9 +35,18 @@ export interface Currency {
 	sell: number
 	variation: number
 }
+
+export interface Cryptocurrency {
+	name: string
+	format: string[]
+	last: number
+	buy?: number
+	sell?: number
+	variation: number
+}
 export interface Stock {
 	name: string
 	location: string
-	points: number
+	points?: number
 	variation: number
 }

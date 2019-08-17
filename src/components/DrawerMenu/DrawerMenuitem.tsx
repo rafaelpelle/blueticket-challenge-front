@@ -6,7 +6,7 @@ import Icon from '@material-ui/core/Icon'
 const menuItens: any = {
 	home: { text: 'INÍCIO', iconName: 'home_rounded' },
 	stocks: { text: 'AÇÕES', iconName: 'trending_up_rounded' },
-	currencies: { text: 'MOÉDAS', iconName: 'attach_money_rounded' },
+	currencies: { text: 'MOEDAS', iconName: 'attach_money_rounded' },
 	login: { text: 'ENTRAR', iconName: 'exit_to_app_rounded' },
 	register: { text: 'CADASTRAR', iconName: 'person_add_rounded' },
 	logout: { text: 'SAIR', iconName: 'exit_to_app_rounded' },
