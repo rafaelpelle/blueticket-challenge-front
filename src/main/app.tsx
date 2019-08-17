@@ -1,15 +1,19 @@
 import * as React from 'react'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Router, Switch } from 'react-router-dom'
+import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../utils/httpClient'
-import { RootReducerInterface, User } from '../utils/interfaces'
+import { RootReducerInterface, User, SetFinanceDataInterface } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
 import DrawerMenu from '../components/DrawerMenu'
-// import Footer from '../components/Footer'
+import {
+	setStocksData,
+	setCurrenciesData,
+	setBitcoinData,
+} from '../redux/ActionCreators/FinanceActions'
 
 require('./app.css')
 
@@ -39,11 +43,15 @@ const App: React.FC<Props> = (props) => {
 	const getFinanceData = async () => {
 		setLoading(true)
 		try {
-			// const response = await axios.get(FINANCE_URL)
-			// const response = await axios.get(`${FINANCE_URL}?key=${FINANCE_KEY}`)
-			const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
-			console.log(response.data)
-			// setCurrencies(currenciesData)
+			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
+			const response = { data: require('../utils/hardcodedData.json') }
+			const { setStocksData, setCurrenciesData, setBitcoinData } = props
+			const currenciesData = response.data.results.currencies
+			delete currenciesData.source
+			delete currenciesData.BTC
+			setStocksData(response.data.results.stocks)
+			setCurrenciesData(currenciesData)
+			setBitcoinData(response.data.results.bitcoin)
 		} catch (e) {
 			console.error(e)
 		}
@@ -58,7 +66,6 @@ const App: React.FC<Props> = (props) => {
 				<Switch>
 					<MyRoutes user={ user } />
 				</Switch>
-				{ /* <Footer /> */ }
 			</div>
 		</Router>
 	)
@@ -67,7 +74,8 @@ const App: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootReducerInterface) => ({
 	user: state.UserReducer.user,
 })
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch: any) =>
+	bindActionCreators({ setStocksData, setCurrenciesData, setBitcoinData }, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -90,7 +98,11 @@ interface StateProps {
 	user: User
 }
 
-interface DispatchProps {}
+interface DispatchProps {
+	setStocksData: SetFinanceDataInterface
+	setCurrenciesData: SetFinanceDataInterface
+	setBitcoinData: SetFinanceDataInterface
+}
 
 type Props = StateProps & DispatchProps & OwnProps
 type State = OwnState
