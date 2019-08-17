@@ -22,7 +22,13 @@ const CurrencyBoard: React.FC<Props> = (props) => {
 			</Typography>
 			<Typography style={ fontContainerStyle }>
 				<span style={ labelStyle }>Variação: </span>
-				<strong style={ valueStyle }>{ valueToPercentage(variation) }</strong>
+				<strong
+					style={
+						variation > 0 ? positiveStyle : variation < 0 ? negativeStyle : valueStyle
+					}
+				>
+					{ valueToPercentage(variation) }
+				</strong>
 			</Typography>
 		</Paper>
 	)
@@ -45,16 +51,23 @@ const fontContainerStyle = {
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	padding: '0.5em 0',
-}
-const labelStyle = {
-	fontSize: '1.2em',
-	fontWeight: 600,
-	opacity: 0.6,
+	padding: '0.3em 0',
 }
 const valueStyle = {
 	fontSize: '1.2em',
 	fontWeight: 600,
+}
+const labelStyle = {
+	...valueStyle,
+	opacity: 0.6,
+}
+const positiveStyle = {
+	...valueStyle,
+	color: '#4caf50',
+}
+const negativeStyle = {
+	...valueStyle,
+	color: 'red',
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////// INTERFACES //////////////////////////
