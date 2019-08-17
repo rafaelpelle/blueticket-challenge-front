@@ -39,7 +39,7 @@ const CurrenciesPage: React.FC<Props> = (props) => {
 			{ !loading && (
 				<div style={ gridStyle }>
 					{ Object.keys(currencies).map((key: string) => (
-						<CurrencyBoard currency={ currencies[key] } />
+						<CurrencyBoard currency={ currencies[key] } key={ key } />
 					)) }
 				</div>
 			) }

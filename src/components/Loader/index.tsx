@@ -6,7 +6,7 @@ const Loader: React.FC<Props> = (props) => (
 		<CircularProgress
 			size={ 150 }
 			color={ props.color ? props.color : 'primary' }
-			style={ { ...defaultStyle, ...props.style } }
+			style={ { ...props.style } }
 		/>
 	</div>
 )
@@ -25,10 +25,6 @@ const containerStyle = {
 	alignItems: 'center',
 	justifyContent: 'center',
 	backgroundColor: 'rgba(0,0,0,0.25)',
-}
-const defaultStyle = {
-	// display: 'block',
-	// margin: '0 auto',
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////// INTERFACES //////////////////////////
