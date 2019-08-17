@@ -33,14 +33,15 @@ const RegisterForm: React.FC<Props> = (props) => {
 			const alreadyRegistered = registeredUsers.some((user) => user.email === newUser.email)
 			if (alreadyRegistered) {
 				enqueueSnackbar(`E-mail já cadastrado!`, { variant: 'error' })
+				setLoading(false)
 			} else {
+				setLoading(false)
 				registeredUsers.push(newUser)
 				localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers))
 				props.userLogin(newUser)
 				history.push('/')
 				enqueueSnackbar(`Conta criada com sucesso. Bem-vindo!`, { variant: 'success' })
 			}
-			setLoading(false)
 		}
 	}
 
@@ -53,7 +54,7 @@ const RegisterForm: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<div>
+		<form>
 			<img src={ userPlaceholder } style={ imgStyle } alt='User' />
 			<FormInput
 				label='NOME'
@@ -93,7 +94,7 @@ const RegisterForm: React.FC<Props> = (props) => {
 				onClick={ handleLogin }
 				fullWidth
 			/>
-		</div>
+		</form>
 	)
 }
 

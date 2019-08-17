@@ -48,7 +48,7 @@ const LoginForm: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<div>
+		<form>
 			<img src={ userPlaceholder } style={ imgStyle } alt='User' />
 			<FormInput
 				label='E-MAIL'
@@ -81,7 +81,7 @@ const LoginForm: React.FC<Props> = (props) => {
 				onClick={ handleRegister }
 				fullWidth
 			/>
-		</div>
+		</form>
 	)
 }
 

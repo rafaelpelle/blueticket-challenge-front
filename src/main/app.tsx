@@ -11,43 +11,37 @@ import DrawerMenu from '../components/DrawerMenu'
 
 require('./app.css')
 
-class App extends React.Component<Props, State> {
-	constructor(props: Props) {
-		super(props)
-		this.state = { user: null }
-	}
+const App: React.FC<Props> = (props) => {
+	const [user, setUser] = React.useState<User | null>(null)
 
-	componentDidMount() {
-		// listen to the service-worker registration.onupdatefound
-		// event on /src/utils/registerSW.ts.
+	React.useEffect(() => {
+		// listen to the service-worker registration.onupdatefound event on /src/utils/registerSW.ts.
 		document.body.addEventListener('updateAvailable', () => location.reload())
 		// listen to router's history changes
-		history.listen(() => this.scrollToTheTop())
-	}
+		history.listen(() => scrollToTheTop())
+	}, [])
 
-	componentWillReceiveProps(props: Props) {
-		this.setState({ user: props.user })
-	}
+	React.useEffect(() => {
+		setUser(props.user)
+	}, [props.user])
 
-	scrollToTheTop = () => {
+	const scrollToTheTop = () => {
 		document.body.scrollTop = 0 // For Safari
 		document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
 	}
 
-	render() {
-		return (
-			<Router history={ history }>
-				<div>
-					<PageHeader />
-					<DrawerMenu />
-					<Switch>
-						<MyRoutes user={ this.state.user } />
-					</Switch>
-					{ /* <Footer /> */ }
-				</div>
-			</Router>
-		)
-	}
+	return (
+		<Router history={ history }>
+			<div>
+				<PageHeader />
+				<DrawerMenu />
+				<Switch>
+					<MyRoutes user={ user } />
+				</Switch>
+				{ /* <Footer /> */ }
+			</div>
+		</Router>
+	)
 }
 
 const mapStateToProps = (state: RootReducerInterface) => ({

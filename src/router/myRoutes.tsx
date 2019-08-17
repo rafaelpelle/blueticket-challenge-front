@@ -19,6 +19,7 @@ const MyRoutes: React.FC<Props> = (props) => {
 				exact={ true }
 				path='/'
 				render={ () => (user ? <HomePage /> : <Redirect to='/login' />) }
+				// render={ () => <HomePage /> }
 			/>
 			<Route exact={ true } path='/home' render={ () => <Redirect to='/' /> } />
 			<Route exact={ true } path='/logout' component={ LogoutPage } />
@@ -27,20 +28,20 @@ const MyRoutes: React.FC<Props> = (props) => {
 			<Route
 				exact={ true }
 				path='/stocks'
-				// render={ () => (user ? <StocksPage /> : <Redirect to='/login' />) }
-				render={ () => <StocksPage /> }
+				render={ () => (user ? <StocksPage /> : <Redirect to='/login' />) }
+				// render={ () => <StocksPage /> }
 			/>
 			<Route
 				exact={ true }
 				path='/bitcoin'
-				// render={ () => (user ? <BitcoinPage /> : <Redirect to='/login' />) }
-				render={ () => <BitcoinPage /> }
+				render={ () => (user ? <BitcoinPage /> : <Redirect to='/login' />) }
+				// render={ () => <BitcoinPage /> }
 			/>
 			<Route
 				exact={ true }
 				path='/currencies'
-				// render={ () => (user ? <CurrenciesPage /> : <Redirect to='/login' />) }
-				render={ () => <CurrenciesPage /> }
+				render={ () => (user ? <CurrenciesPage /> : <Redirect to='/login' />) }
+				// render={ () => <CurrenciesPage /> }
 			/>
 		</div>
 	)

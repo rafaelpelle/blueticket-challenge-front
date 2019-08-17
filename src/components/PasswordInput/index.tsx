@@ -64,6 +64,7 @@ const PasswordInput: React.FC<Props> = (props) => {
 					onKeyPress,
 					onBlur,
 					ref,
+					autoComplete: 'off',
 				} }
 			/>
 			{ error && <FormHelperText>{ error }</FormHelperText> }

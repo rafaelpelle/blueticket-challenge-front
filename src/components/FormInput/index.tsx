@@ -52,6 +52,7 @@ const FormInput: React.FC<Props> = (props) => {
 					onKeyUp,
 					onKeyPress,
 					onBlur,
+					autoComplete: 'off',
 					ref,
 				} }
 			/>
