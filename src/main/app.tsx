@@ -4,11 +4,13 @@ import { bindActionCreators } from 'redux'
 import { Router, Switch } from 'react-router-dom'
 import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../utils/httpClient'
+import { sleep } from '../utils/time'
 import { RootReducerInterface, User, SetFinanceDataInterface } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
 import DrawerMenu from '../components/DrawerMenu'
+import Loader from '../components/Loader'
 import {
 	setStocksData,
 	setCurrenciesData,
@@ -47,14 +49,19 @@ const App: React.FC<Props> = (props) => {
 			const response = { data: require('../utils/hardcodedData.json') }
 			const { setStocksData, setCurrenciesData, setBitcoinData } = props
 			const currenciesData = response.data.results.currencies
+			const bitcoinData = response.data.results.bitcoin
 			delete currenciesData.source
 			delete currenciesData.BTC
+			delete bitcoinData.xdex
+			delete bitcoinData.foxbit
+			delete bitcoinData.coinbase
 			setStocksData(response.data.results.stocks)
 			setCurrenciesData(currenciesData)
-			setBitcoinData(response.data.results.bitcoin)
+			setBitcoinData(bitcoinData)
 		} catch (e) {
 			console.error(e)
 		}
+		await sleep(1000)
 		setLoading(false)
 	}
 
@@ -63,9 +70,12 @@ const App: React.FC<Props> = (props) => {
 			<div>
 				<PageHeader />
 				<DrawerMenu />
-				<Switch>
-					<MyRoutes user={ user } />
-				</Switch>
+				{ loading && <Loader /> }
+				{ !loading && (
+					<Switch>
+						<MyRoutes user={ user } />
+					</Switch>
+				) }
 			</div>
 		</Router>
 	)

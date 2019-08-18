@@ -1,51 +1,31 @@
 import * as React from 'react'
-import axios from 'axios'
-import { FINANCE_KEY, FINANCE_URL } from '../../utils/httpClient'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { RootReducerInterface, BitcoinData } from '../../utils/interfaces'
 import Typography from '@material-ui/core/Typography'
 import BitcoinBoard from './BitcoinBoard'
-import Loader from '../../components/Loader'
 
-const { useState, useEffect } = React
+const CryptoPage: React.FC<Props> = (props) => (
+	<div style={ containerStyle }>
+		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+			COTAÇÃO DO BITCOIN
+		</Typography>
+		{ props.bitcoin && (
+			<div style={ gridStyle }>
+				{ Object.keys(props.bitcoin).map((key: string) => (
+					<BitcoinBoard cryptocurrency={ props.bitcoin[key] } key={ key } />
+				)) }
+			</div>
+		) }
+	</div>
+)
 
-const CryptoPage: React.FC<Props> = (props) => {
-	const [loading, setLoading] = useState(true)
-	const [cryptocurrencies, setCryptocurrencies] = useState(null)
-
-	useEffect(() => {
-		handleGetCryptocurrencies()
-	}, [])
-
-	const handleGetCryptocurrencies = async () => {
-		setLoading(true)
-		try {
-			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
-			// const currenciesData = response.data.results.currencies
-			const cryptocurrenciesData = require('../../utils/hardcodedData.json').results.bitcoin
-			setCryptocurrencies(cryptocurrenciesData)
-		} catch (e) {
-			console.error(e)
-		}
-		setLoading(false)
-	}
-
-	return (
-		<div style={ containerStyle }>
-			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-				COTAÇÃO DO BITCOIN
-			</Typography>
-			{ loading && <Loader /> }
-			{ !loading && (
-				<div style={ gridStyle }>
-					{ Object.keys(cryptocurrencies).map((key: string) => (
-						<BitcoinBoard cryptocurrency={ cryptocurrencies[key] } key={ key } />
-					)) }
-				</div>
-			) }
-		</div>
-	)
-}
-
-export default CryptoPage
+const mapStateToProps = (state: RootReducerInterface) => ({ bitcoin: state.FinanceReducer.bitcoin })
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps
+)(CryptoPage)
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
@@ -72,7 +52,9 @@ interface OwnState {}
 
 interface OwnProps {}
 
-interface StateProps {}
+interface StateProps {
+	bitcoin: BitcoinData
+}
 
 interface DispatchProps {}
 

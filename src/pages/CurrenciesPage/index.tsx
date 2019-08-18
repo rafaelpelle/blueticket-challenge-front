@@ -1,53 +1,32 @@
 import * as React from 'react'
-import axios from 'axios'
-import { FINANCE_KEY, FINANCE_URL } from '../../utils/httpClient'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { RootReducerInterface, CurrenciesData } from '../../utils/interfaces'
 import Typography from '@material-ui/core/Typography'
 import CurrencyBoard from './CurrencyBoard'
-import Loader from '../../components/Loader'
 
-const { useState, useEffect } = React
-
-const CurrenciesPage: React.FC<Props> = (props) => {
-	const [loading, setLoading] = useState(true)
-	const [currencies, setCurrencies] = useState(null)
-
-	useEffect(() => {
-		handleGetCurrencies()
-	}, [])
-
-	const handleGetCurrencies = async () => {
-		setLoading(true)
-		try {
-			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
-			// const currenciesData = response.data.results.currencies
-			const currenciesData = require('../../utils/hardcodedData.json').results.currencies
-			delete currenciesData.source
-			delete currenciesData.BTC
-			setCurrencies(currenciesData)
-		} catch (e) {
-			console.error(e)
-		}
-		setLoading(false)
-	}
-
-	return (
-		<div style={ containerStyle }>
-			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-				COTAÇÃO DAS MOEDAS
-			</Typography>
-			{ loading && <Loader /> }
-			{ !loading && (
-				<div style={ gridStyle }>
-					{ Object.keys(currencies).map((key: string) => (
-						<CurrencyBoard currency={ currencies[key] } key={ key } />
-					)) }
-				</div>
-			) }
-		</div>
-	)
-}
-
-export default CurrenciesPage
+const CurrenciesPage: React.FC<Props> = (props) => (
+	<div style={ containerStyle }>
+		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+			COTAÇÃO DAS MOEDAS
+		</Typography>
+		{ props.currencies && (
+			<div style={ gridStyle }>
+				{ Object.keys(props.currencies).map((key: string) => (
+					<CurrencyBoard currency={ props.currencies[key] } key={ key } />
+				)) }
+			</div>
+		) }
+	</div>
+)
+const mapStateToProps = (state: RootReducerInterface) => ({
+	currencies: state.FinanceReducer.currencies,
+})
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps
+)(CurrenciesPage)
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
@@ -74,7 +53,9 @@ interface OwnState {}
 
 interface OwnProps {}
 
-interface StateProps {}
+interface StateProps {
+	currencies: CurrenciesData
+}
 
 interface DispatchProps {}
 

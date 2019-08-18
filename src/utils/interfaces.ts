@@ -16,9 +16,9 @@ export interface ControllerReducerInterface {
 }
 
 export interface FinanceReducerInterface {
-	stocks: any
-	currencies: any
-	bitcoin: any
+	stocks: StocksData
+	currencies: CurrenciesData
+	bitcoin: BitcoinData
 }
 /////////////////////////////////////////////////////////////////
 //////////////////////// ACTION CREATORS ////////////////////////
@@ -53,9 +53,14 @@ export interface Cryptocurrency {
 	sell?: number
 	variation: number
 }
+
 export interface Stock {
 	name: string
 	location: string
 	points?: number
 	variation: number
 }
+
+export type StocksData = any
+export type CurrenciesData = any
+export type BitcoinData = any

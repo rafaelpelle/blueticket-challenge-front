@@ -1,51 +1,31 @@
 import * as React from 'react'
-import axios from 'axios'
-import { FINANCE_KEY, FINANCE_URL } from '../../utils/httpClient'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { RootReducerInterface, StocksData } from '../../utils/interfaces'
 import Typography from '@material-ui/core/Typography'
 import StockBoard from './StockBoard'
-import Loader from '../../components/Loader'
 
-const { useState, useEffect } = React
+const StocksPage: React.FC<Props> = (props) => (
+	<div style={ containerStyle }>
+		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+			BOLSA DE VALORES
+		</Typography>
+		{ props.stocks && (
+			<div style={ gridStyle }>
+				{ Object.keys(props.stocks).map((key: string) => (
+					<StockBoard stock={ props.stocks[key] } key={ key } />
+				)) }
+			</div>
+		) }
+	</div>
+)
 
-const StocksPage: React.FC<Props> = (props) => {
-	const [loading, setLoading] = useState(true)
-	const [stocks, setStocks] = useState(null)
-
-	useEffect(() => {
-		handleGetStocks()
-	}, [])
-
-	const handleGetStocks = async () => {
-		setLoading(true)
-		try {
-			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
-			// const currenciesData = response.data.results.currencies
-			const stocksData = require('../../utils/hardcodedData.json').results.stocks
-			setStocks(stocksData)
-		} catch (e) {
-			console.error(e)
-		}
-		setLoading(false)
-	}
-
-	return (
-		<div style={ containerStyle }>
-			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-				BOLSA DE VALORES
-			</Typography>
-			{ loading && <Loader /> }
-			{ !loading && (
-				<div style={ gridStyle }>
-					{ Object.keys(stocks).map((key: string) => (
-						<StockBoard stock={ stocks[key] } key={ key } />
-					)) }
-				</div>
-			) }
-		</div>
-	)
-}
-
-export default StocksPage
+const mapStateToProps = (state: RootReducerInterface) => ({ stocks: state.FinanceReducer.stocks })
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps
+)(StocksPage)
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
@@ -72,7 +52,9 @@ interface OwnState {}
 
 interface OwnProps {}
 
-interface StateProps {}
+interface StateProps {
+	stocks: StocksData
+}
 
 interface DispatchProps {}
 
