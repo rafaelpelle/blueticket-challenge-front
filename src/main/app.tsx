@@ -61,7 +61,7 @@ const App: React.FC<Props> = (props) => {
 		} catch (e) {
 			console.error(e)
 		}
-		await sleep(1000)
+		await sleep(2000)
 		setLoading(false)
 	}
 
@@ -70,7 +70,7 @@ const App: React.FC<Props> = (props) => {
 			<div>
 				<PageHeader />
 				<DrawerMenu />
-				{ loading && <Loader /> }
+				<Loader loading={ loading } />
 				{ !loading && (
 					<Switch>
 						<MyRoutes user={ user } />

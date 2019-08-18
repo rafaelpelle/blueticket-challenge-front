@@ -4,14 +4,16 @@ export const pageHeaderHeight = '75px'
 export const isMobile = window.innerWidth < 800
 export const toastTimeout = 3000
 export const moneyGreen = '#4caf50'
+export const primaryColor = '#7159C1'
+export const secondaryColor = '#FFFFFF'
 
 export const appTheme = createMuiTheme({
 	palette: {
 		primary: {
-			main: '#7159C1',
+			main: primaryColor,
 		},
 		secondary: {
-			main: '#FFFFFF',
+			main: secondaryColor,
 		},
 	},
 	typography: {
