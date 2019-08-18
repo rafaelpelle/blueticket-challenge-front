@@ -48,16 +48,14 @@ const App: React.FC<Props> = (props) => {
 			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
 			const response = { data: require('../utils/hardcodedData.json') }
 			const { setStocksData, setCurrenciesData, setBitcoinData } = props
-			const currenciesData = response.data.results.currencies
-			const bitcoinData = response.data.results.bitcoin
-			delete currenciesData.source
-			delete currenciesData.BTC
-			delete bitcoinData.xdex
-			delete bitcoinData.foxbit
-			delete bitcoinData.coinbase
+			delete response.data.results.currencies.source
+			delete response.data.results.currencies.BTC
+			delete response.data.results.bitcoin.xdex
+			delete response.data.results.bitcoin.foxbit
+			delete response.data.results.bitcoin.coinbase
 			setStocksData(response.data.results.stocks)
-			setCurrenciesData(currenciesData)
-			setBitcoinData(bitcoinData)
+			setCurrenciesData(response.data.results.currencies)
+			setBitcoinData(response.data.results.bitcoin)
 		} catch (e) {
 			console.error(e)
 		}
