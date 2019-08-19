@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Stock } from '../../utils/interfaces'
-import { handleMoneyFormat, valueToPercentage, parseCurrencyName } from '../../utils/stringParser'
+import { valueToPercentage } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
@@ -9,7 +9,7 @@ const CurrencyBoard: React.FC<Props> = (props) => {
 
 	return (
 		<Paper elevation={ 6 } style={ paperStyle }>
-			<Typography align='center' color='primary' style={ currencyNameStyle }>
+			<Typography align='center' color='primary' style={ nameStyle }>
 				{ name }
 			</Typography>
 			<Typography style={ fontContainerStyle }>
@@ -44,7 +44,7 @@ export default CurrencyBoard
 const paperStyle = {
 	padding: '2em',
 }
-const currencyNameStyle = {
+const nameStyle = {
 	fontWeight: 700,
 	fontSize: '1.5em',
 	marginBottom: '1em',

@@ -9,7 +9,7 @@ const CurrencyBoard: React.FC<Props> = (props) => {
 
 	return (
 		<Paper elevation={ 6 } style={ paperStyle }>
-			<Typography align='center' color='primary' style={ currencyNameStyle }>
+			<Typography align='center' color='primary' style={ nameStyle }>
 				{ parseCurrencyName(name) }
 			</Typography>
 			<Typography style={ fontContainerStyle }>
@@ -42,7 +42,7 @@ export default CurrencyBoard
 const paperStyle = {
 	padding: '2em',
 }
-const currencyNameStyle = {
+const nameStyle = {
 	fontWeight: 700,
 	fontSize: '1.5em',
 	marginBottom: '1em',

@@ -11,15 +11,13 @@ import BitcoinPage from '../pages/BitcoinPage'
 
 const MyRoutes: React.FC<Props> = (props) => {
 	const { user } = props
-	const locationHash = window.location.hash
 
 	return (
 		<div style={ divStyle }>
 			<Route
 				exact={ true }
 				path='/'
-				// render={ () => (user ? <HomePage /> : <Redirect to='/login' />) }
-				render={ () => <HomePage /> }
+				render={ () => (user ? <HomePage /> : <Redirect to='/login' />) }
 			/>
 			<Route exact={ true } path='/home' render={ () => <Redirect to='/' /> } />
 			<Route exact={ true } path='/logout' component={ LogoutPage } />
@@ -29,19 +27,16 @@ const MyRoutes: React.FC<Props> = (props) => {
 				exact={ true }
 				path='/stocks'
 				render={ () => (user ? <StocksPage /> : <Redirect to='/login' />) }
-				// render={ () => <StocksPage /> }
 			/>
 			<Route
 				exact={ true }
 				path='/bitcoin'
 				render={ () => (user ? <BitcoinPage /> : <Redirect to='/login' />) }
-				// render={ () => <BitcoinPage /> }
 			/>
 			<Route
 				exact={ true }
 				path='/currencies'
 				render={ () => (user ? <CurrenciesPage /> : <Redirect to='/login' />) }
-				// render={ () => <CurrenciesPage /> }
 			/>
 		</div>
 	)

@@ -5,17 +5,17 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 
 const options: any = {
-	stocks: { text: 'AÇÕES', iconName: 'trending_up_rounded' },
-	currencies: { text: 'MOEDAS', iconName: 'attach_money_rounded' },
-	bitcoin: { text: 'BITCOIN', iconName: 'format_bold_rounded' },
-	logout: { text: 'SAIR', iconName: 'exit_to_app_rounded' },
+	stocks: { text: 'AÇÕES', iconName: 'trending_up_rounded', route: '/stocks' },
+	currencies: { text: 'MOEDAS', iconName: 'attach_money_rounded', route: '/currencies' },
+	bitcoin: { text: 'BITCOIN', iconName: 'format_bold_rounded', route: '/bitcoin' },
+	logout: { text: 'SAIR', iconName: 'exit_to_app_rounded', route: '/logout' },
 }
 
 const HomeBoard: React.FC<Props> = (props) => {
-	const { text, iconName } = options[props.option]
+	const { text, iconName, route } = options[props.option]
 
 	const handleClick = () => {
-		history.push(`/${props.option}`)
+		history.push(route)
 	}
 
 	return (

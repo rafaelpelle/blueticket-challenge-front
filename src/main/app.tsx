@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { Router, Switch } from 'react-router-dom'
 import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../utils/httpClient'
-import { sleep } from '../utils/time'
 import { RootReducerInterface, User, SetFinanceDataInterface } from '../utils/interfaces'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
@@ -45,9 +44,9 @@ const App: React.FC<Props> = (props) => {
 	const getFinanceData = async () => {
 		setLoading(true)
 		try {
-			// const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
-			const response = { data: require('../utils/hardcodedData.json') }
 			const { setStocksData, setCurrenciesData, setBitcoinData } = props
+			const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
+			// const response = { data: require('../utils/hardcodedData.json') }
 			delete response.data.results.currencies.source
 			delete response.data.results.currencies.BTC
 			delete response.data.results.bitcoin.xdex
@@ -59,7 +58,6 @@ const App: React.FC<Props> = (props) => {
 		} catch (e) {
 			console.error(e)
 		}
-		await sleep(2000)
 		setLoading(false)
 	}
 
