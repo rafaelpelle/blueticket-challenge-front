@@ -10,9 +10,7 @@ const CustomTooltip: React.FC<Props> = (props) => {
 		return (
 			<div style={ tooltipStyle }>
 				<Typography style={ dateStyle }>{ label }</Typography>
-				<Typography style={ priceStyle }>
-					{ handleMoneyFormat(payload[0].value, 'BRL') }
-				</Typography>
+				<Typography style={ priceStyle }>{ payload[0].value }</Typography>
 			</div>
 		)
 	} else {

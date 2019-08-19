@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { openHistory } from '../../redux/ActionCreators/ControllerActions'
-import { RootReducerInterface, BitcoinData, OpenHistoryInterface } from '../../utils/interfaces'
+import { RootReducerInterface, BitcoinData, HistoryData } from '../../utils/interfaces'
 import Typography from '@material-ui/core/Typography'
 import BitcoinBoard from './BitcoinBoard'
 
@@ -16,8 +15,9 @@ const CryptoPage: React.FC<Props> = (props) => (
 				{ Object.keys(props.bitcoin).map((key: string) => (
 					<BitcoinBoard
 						cryptocurrency={ props.bitcoin[key] }
-						openHistory={ props.openHistory }
 						key={ key }
+						keyName={ key }
+						history={ props.history }
 					/>
 				)) }
 			</div>
@@ -25,8 +25,11 @@ const CryptoPage: React.FC<Props> = (props) => (
 	</div>
 )
 
-const mapStateToProps = (state: RootReducerInterface) => ({ bitcoin: state.FinanceReducer.bitcoin })
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({ openHistory }, dispatch)
+const mapStateToProps = (state: RootReducerInterface) => ({
+	bitcoin: state.FinanceReducer.bitcoin,
+	history: state.FinanceReducer.history,
+})
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -59,11 +62,10 @@ interface OwnProps {}
 
 interface StateProps {
 	bitcoin: BitcoinData
+	history: HistoryData
 }
 
-interface DispatchProps {
-	openHistory: OpenHistoryInterface
-}
+interface DispatchProps {}
 
 type Props = StateProps & DispatchProps & OwnProps
 

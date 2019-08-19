@@ -5,16 +5,17 @@ import { Router, Switch } from 'react-router-dom'
 import axios from 'axios'
 import { FINANCE_KEY, FINANCE_URL } from '../utils/httpClient'
 import { RootReducerInterface, User, SetFinanceDataInterface } from '../utils/interfaces'
+import { handleTimeFormat } from '../utils/stringParser'
 import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
 import DrawerMenu from '../components/DrawerMenu'
-import HistoryChart from '../components/HistoryChart'
 import Loader from '../components/Loader'
 import {
 	setStocksData,
 	setCurrenciesData,
 	setBitcoinData,
+	setHistoryData,
 } from '../redux/ActionCreators/FinanceActions'
 
 require('./app.css')
@@ -22,18 +23,23 @@ require('./app.css')
 const App: React.FC<Props> = (props) => {
 	const [user, setUser] = React.useState<User | null>(null)
 	const [loading, setLoading] = React.useState(false)
+	const [intervalId, setIntervalId] = React.useState(null)
 
 	React.useEffect(() => {
 		// listen to the service-worker registration.onupdatefound event on /src/utils/registerSW.ts.
 		document.body.addEventListener('updateAvailable', () => location.reload())
+
 		// listen to router's history changes
 		history.listen(() => scrollToTheTop())
+
+		// Initialize the history interval
+		getFinanceData()
+		setIntervalId(setInterval(getFinanceData, 30000))
 	}, [])
 
 	React.useEffect(() => {
 		if (props.user) {
 			setUser(props.user)
-			getFinanceData()
 		}
 	}, [props.user])
 
@@ -43,9 +49,9 @@ const App: React.FC<Props> = (props) => {
 	}
 
 	const getFinanceData = async () => {
-		setLoading(true)
+		// setLoading(true)
 		try {
-			const { setStocksData, setCurrenciesData, setBitcoinData } = props
+			const { setStocksData, setCurrenciesData, setBitcoinData, setHistoryData } = props
 			const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
 			// const response = { data: require('../utils/hardcodedData.json') }
 			delete response.data.results.currencies.source
@@ -53,13 +59,14 @@ const App: React.FC<Props> = (props) => {
 			delete response.data.results.bitcoin.xdex
 			delete response.data.results.bitcoin.foxbit
 			delete response.data.results.bitcoin.coinbase
+			setHistoryData({ value: response.data.results, date: handleTimeFormat(new Date()) })
 			setStocksData(response.data.results.stocks)
 			setCurrenciesData(response.data.results.currencies)
 			setBitcoinData(response.data.results.bitcoin)
 		} catch (e) {
 			console.error(e)
 		}
-		setLoading(false)
+		// setLoading(false)
 	}
 
 	return (
@@ -67,13 +74,10 @@ const App: React.FC<Props> = (props) => {
 			<div>
 				<PageHeader />
 				<DrawerMenu />
-				<HistoryChart />
 				<Loader loading={ loading } />
-				{ !loading && (
-					<Switch>
-						<MyRoutes user={ user } />
-					</Switch>
-				) }
+				<Switch>
+					<MyRoutes user={ user } />
+				</Switch>
 			</div>
 		</Router>
 	)
@@ -83,7 +87,10 @@ const mapStateToProps = (state: RootReducerInterface) => ({
 	user: state.UserReducer.user,
 })
 const mapDispatchToProps = (dispatch: any) =>
-	bindActionCreators({ setStocksData, setCurrenciesData, setBitcoinData }, dispatch)
+	bindActionCreators(
+		{ setStocksData, setCurrenciesData, setBitcoinData, setHistoryData },
+		dispatch
+	)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -110,6 +117,7 @@ interface DispatchProps {
 	setStocksData: SetFinanceDataInterface
 	setCurrenciesData: SetFinanceDataInterface
 	setBitcoinData: SetFinanceDataInterface
+	setHistoryData: SetFinanceDataInterface
 }
 
 type Props = StateProps & DispatchProps & OwnProps

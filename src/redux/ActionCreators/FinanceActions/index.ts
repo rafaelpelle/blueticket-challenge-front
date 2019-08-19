@@ -13,6 +13,11 @@ export const setBitcoinData = (bitcoin: any) => ({
 	payload: bitcoin,
 })
 
+export const setHistoryData = (historyData: any) => ({
+	type: 'HISTORY_DATA_OBTAINED',
+	payload: historyData,
+})
+
 export const clearFinanceData = () => ({
 	type: 'FINANCE_DATA_CLEARED',
 })

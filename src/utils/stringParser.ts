@@ -85,3 +85,15 @@ export const handleDateFormat = (timestamp: string | Date) => {
 	const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
 	return new Date(timestamp).toLocaleDateString('pt-BR', options)
 }
+
+export const handleTimeFormat = (timestamp: string | Date) => {
+	const options = {
+		year: 'numeric',
+		month: 'numeric',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+	}
+	return new Date(timestamp).toLocaleTimeString('pt-BR', options)
+}

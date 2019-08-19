@@ -1,24 +1,35 @@
 import * as React from 'react'
-import { Stock, OpenHistoryInterface } from '../../utils/interfaces'
+import { Stock, HistoryData } from '../../utils/interfaces'
 import { valueToPercentage } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import HistoryChart from '../../components/HistoryChart'
 
 const CurrencyBoard: React.FC<Props> = (props) => {
 	const { name, location, points, variation } = props.stock
+	const [historyIsOpen, setHistoryIsOpen] = React.useState(false)
 
-	const handleClick = () => {
-		props.openHistory()
+	const toggleHistoryIsOpen = () => {
+		setHistoryIsOpen(!historyIsOpen)
+	}
+
+	const getHistory = () => {
+		return props.history.map((entry: any) => ({
+			date: entry.date,
+			value: entry.value.stocks[props.keyName].points
+				? entry.value.stocks[props.keyName].points
+				: entry.value.stocks[props.keyName].variation,
+		}))
 	}
 
 	return (
-		<Paper elevation={ 6 } onClick={ handleClick } style={ paperStyle }>
+		<Paper elevation={ 6 } onClick={ toggleHistoryIsOpen } style={ paperStyle }>
 			<Typography align='center' color='primary' style={ nameStyle }>
 				{ name }
 			</Typography>
 			<Typography style={ fontContainerStyle }>
 				<span style={ labelStyle }>Local: </span>
-				<span style={ valueStyle }>{ location }</span>
+				<span style={ { ...valueStyle, fontSize: '0.9em' } }>{ location }</span>
 			</Typography>
 			{ points && (
 				<Typography style={ fontContainerStyle }>
@@ -36,6 +47,12 @@ const CurrencyBoard: React.FC<Props> = (props) => {
 					{ valueToPercentage(variation) }
 				</strong>
 			</Typography>
+
+			<HistoryChart
+				isOpen={ historyIsOpen }
+				onClose={ toggleHistoryIsOpen }
+				history={ getHistory() }
+			/>
 		</Paper>
 	)
 }
@@ -83,7 +100,8 @@ interface OwnState {}
 
 interface OwnProps {
 	stock: Stock
-	openHistory: OpenHistoryInterface
+	keyName: string
+	history: HistoryData
 }
 
 interface StateProps {}

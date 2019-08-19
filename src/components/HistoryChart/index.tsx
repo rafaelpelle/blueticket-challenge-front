@@ -1,17 +1,12 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { RootReducerInterface, CloseHistoryInterface } from '../../utils/interfaces'
-import { closeHistory } from '../../redux/ActionCreators/ControllerActions'
 import { primaryColor } from '../../utils/theme'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Dialog, DialogContent, Typography } from '@material-ui/core'
 import CustomTooltip from './CustomTooltip'
-import { valueHistory } from './hardcodedData'
 
 const HistoryChart: React.FC<Props> = (props) => {
 	const handleClose = () => {
-		props.closeHistory()
+		props.onClose()
 	}
 
 	return (
@@ -20,9 +15,17 @@ const HistoryChart: React.FC<Props> = (props) => {
 				<Typography align='center' color='primary' style={ nameStyle }>
 					HISTÓRICO DE VALORES
 				</Typography>
+				<Typography
+					align='center'
+					color='primary'
+					variant='overline'
+					style={ subHeaderStyle }
+				>
+					ATUALIZADO A CADA 30 SEGUNDOS
+				</Typography>
 				<div style={ chartContainerStyle }>
 					<ResponsiveContainer>
-						<LineChart data={ valueHistory }>
+						<LineChart data={ props.history }>
 							<XAxis dataKey='date' />
 							<YAxis />
 							<Tooltip
@@ -51,14 +54,7 @@ const HistoryChart: React.FC<Props> = (props) => {
 	)
 }
 
-const mapStateToProps = (state: RootReducerInterface) => ({
-	isOpen: state.ControllerReducer.historyIsOpen,
-})
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({ closeHistory }, dispatch)
-export default connect<StateProps, DispatchProps, OwnProps>(
-	mapStateToProps,
-	mapDispatchToProps
-)(HistoryChart)
+export default HistoryChart
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
@@ -75,22 +71,26 @@ const chartContainerStyle = {
 const nameStyle = {
 	fontWeight: 700,
 	fontSize: '1.25em',
-	marginBottom: '1.5em',
+}
+const subHeaderStyle = {
+	margin: '0 auto',
+	display: 'block',
+	marginBottom: '2.5em',
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////// INTERFACES //////////////////////////
 /////////////////////////////////////////////////////////////////
 interface OwnState {}
 
-interface OwnProps {}
-
-interface StateProps {
+interface OwnProps {
 	isOpen: boolean
+	onClose: any
+	history: Array<{ date: string; value: number }>
 }
 
-interface DispatchProps {
-	closeHistory: CloseHistoryInterface
-}
+interface StateProps {}
+
+interface DispatchProps {}
 
 type Props = StateProps & DispatchProps & OwnProps
 

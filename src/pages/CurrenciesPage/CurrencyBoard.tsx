@@ -1,18 +1,27 @@
 import * as React from 'react'
-import { Currency, OpenHistoryInterface } from '../../utils/interfaces'
+import { Currency, HistoryData } from '../../utils/interfaces'
 import { handleMoneyFormat, valueToPercentage, parseCurrencyName } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import HistoryChart from '../../components/HistoryChart'
 
 const CurrencyBoard: React.FC<Props> = (props) => {
 	const { name, buy, sell, variation } = props.currency
+	const [historyIsOpen, setHistoryIsOpen] = React.useState(false)
 
-	const handleClick = () => {
-		props.openHistory()
+	const toggleHistoryIsOpen = () => {
+		setHistoryIsOpen(!historyIsOpen)
+	}
+
+	const getHistory = () => {
+		return props.history.map((entry: any) => ({
+			date: entry.date,
+			value: entry.value.currencies[props.keyName].buy,
+		}))
 	}
 
 	return (
-		<Paper elevation={ 6 } onClick={ handleClick } style={ paperStyle }>
+		<Paper elevation={ 6 } onClick={ toggleHistoryIsOpen } style={ paperStyle }>
 			<Typography align='center' color='primary' style={ nameStyle }>
 				{ parseCurrencyName(name) }
 			</Typography>
@@ -34,6 +43,12 @@ const CurrencyBoard: React.FC<Props> = (props) => {
 					{ valueToPercentage(variation) }
 				</strong>
 			</Typography>
+
+			<HistoryChart
+				isOpen={ historyIsOpen }
+				onClose={ toggleHistoryIsOpen }
+				history={ getHistory() }
+			/>
 		</Paper>
 	)
 }
@@ -81,7 +96,8 @@ interface OwnState {}
 
 interface OwnProps {
 	currency: Currency
-	openHistory: OpenHistoryInterface
+	keyName: string
+	history: HistoryData
 }
 
 interface StateProps {}

@@ -1,18 +1,27 @@
 import * as React from 'react'
-import { Cryptocurrency, OpenHistoryInterface } from '../../utils/interfaces'
+import { Cryptocurrency, HistoryData } from '../../utils/interfaces'
 import { handleMoneyFormat, valueToPercentage } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import HistoryChart from '../../components/HistoryChart'
 
 const BitcoinBoard: React.FC<Props> = (props) => {
 	const { name, format, last, buy, sell, variation } = props.cryptocurrency
+	const [historyIsOpen, setHistoryIsOpen] = React.useState(false)
 
-	const handleClick = () => {
-		props.openHistory()
+	const toggleHistoryIsOpen = () => {
+		setHistoryIsOpen(!historyIsOpen)
+	}
+
+	const getHistory = () => {
+		return props.history.map((entry: any) => ({
+			date: entry.date,
+			value: entry.value.bitcoin[props.keyName].last,
+		}))
 	}
 
 	return (
-		<Paper elevation={ 6 } style={ paperStyle } onClick={ handleClick }>
+		<Paper elevation={ 6 } style={ paperStyle } onClick={ toggleHistoryIsOpen }>
 			<Typography align='center' color='primary' style={ nameStyle }>
 				{ name }
 			</Typography>
@@ -42,6 +51,12 @@ const BitcoinBoard: React.FC<Props> = (props) => {
 					{ valueToPercentage(variation) }
 				</strong>
 			</Typography>
+
+			<HistoryChart
+				isOpen={ historyIsOpen }
+				onClose={ toggleHistoryIsOpen }
+				history={ getHistory() }
+			/>
 		</Paper>
 	)
 }
@@ -89,7 +104,8 @@ interface OwnState {}
 
 interface OwnProps {
 	cryptocurrency: Cryptocurrency
-	openHistory: OpenHistoryInterface
+	keyName: string
+	history: HistoryData
 }
 
 interface StateProps {}

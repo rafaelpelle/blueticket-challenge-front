@@ -20,6 +20,7 @@ export interface FinanceReducerInterface {
 	stocks: StocksData
 	currencies: CurrenciesData
 	bitcoin: BitcoinData
+	history: HistoryData
 }
 /////////////////////////////////////////////////////////////////
 //////////////////////// ACTION CREATORS ////////////////////////
@@ -30,7 +31,7 @@ export type OpenDrawerInterface = () => { type: string }
 export type CloseDrawerInterface = () => { type: string }
 export type OpenHistoryInterface = () => { type: string }
 export type CloseHistoryInterface = () => { type: string }
-export type SetFinanceDataInterface = (data: any) => { type: string; payload: User }
+export type SetFinanceDataInterface = (data: any) => { type: string; payload: any }
 export type ClearFinanceDataInterface = () => { type: string }
 /////////////////////////////////////////////////////////////////
 /////////////////////////// MODEL ///////////////////////////////
@@ -67,3 +68,4 @@ export interface Stock {
 export type StocksData = any
 export type CurrenciesData = any
 export type BitcoinData = any
+export type HistoryData = any[]
