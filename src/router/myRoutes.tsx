@@ -18,8 +18,8 @@ const MyRoutes: React.FC<Props> = (props) => {
 			<Route
 				exact={ true }
 				path='/'
-				render={ () => (user ? <HomePage /> : <Redirect to='/login' />) }
-				// render={ () => <HomePage /> }
+				// render={ () => (user ? <HomePage /> : <Redirect to='/login' />) }
+				render={ () => <HomePage /> }
 			/>
 			<Route exact={ true } path='/home' render={ () => <Redirect to='/' /> } />
 			<Route exact={ true } path='/logout' component={ LogoutPage } />

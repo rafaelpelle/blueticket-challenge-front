@@ -27,6 +27,7 @@ export default Loader
 ///////////////////////////// STYLES ////////////////////////////
 /////////////////////////////////////////////////////////////////
 const loadingStyle = {
+	zIndex: 1000,
 	width: '100vw',
 	height: `calc(100vh - ${pageHeaderHeight})`,
 	top: pageHeaderHeight,
@@ -39,6 +40,7 @@ const loadingStyle = {
 }
 const notLoadingStyle = {
 	...loadingStyle,
+	zIndex: -1,
 	backgroundColor: 'transparent',
 }
 const fontStyle = {
