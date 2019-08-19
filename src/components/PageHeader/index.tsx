@@ -28,7 +28,7 @@ const PageHeader: React.FC<Props> = (props) => {
 					closeDrawerMenu={ closeDrawerMenu }
 				/>
 				<PageHeaderLogo imageVisible={ imageIsVisible } />
-				<SearchInput isOpen={ searchIsOpen } setIsOpen={ setSearchIsOpen } />
+				{ /* <SearchInput isOpen={ searchIsOpen } setIsOpen={ setSearchIsOpen } /> */ }
 			</Toolbar>
 		</AppBar>
 	)
