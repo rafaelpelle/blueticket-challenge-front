@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { RootReducerInterface, CurrenciesData } from '../../utils/interfaces'
+import { RootReducerInterface, CurrenciesData, OpenHistoryInterface } from '../../utils/interfaces'
+import { openHistory } from '../../redux/ActionCreators/ControllerActions'
 import Typography from '@material-ui/core/Typography'
 import CurrencyBoard from './CurrencyBoard'
 
@@ -13,7 +14,11 @@ const CurrenciesPage: React.FC<Props> = (props) => (
 		{ props.currencies && (
 			<div style={ gridStyle }>
 				{ Object.keys(props.currencies).map((key: string) => (
-					<CurrencyBoard currency={ props.currencies[key] } key={ key } />
+					<CurrencyBoard
+						currency={ props.currencies[key] }
+						openHistory={ props.openHistory }
+						key={ key }
+					/>
 				)) }
 			</div>
 		) }
@@ -22,7 +27,7 @@ const CurrenciesPage: React.FC<Props> = (props) => (
 const mapStateToProps = (state: RootReducerInterface) => ({
 	currencies: state.FinanceReducer.currencies,
 })
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ openHistory }, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -57,7 +62,9 @@ interface StateProps {
 	currencies: CurrenciesData
 }
 
-interface DispatchProps {}
+interface DispatchProps {
+	openHistory: OpenHistoryInterface
+}
 
 type Props = StateProps & DispatchProps & OwnProps
 

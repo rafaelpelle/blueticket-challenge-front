@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { RootReducerInterface, StocksData } from '../../utils/interfaces'
+import { RootReducerInterface, StocksData, OpenHistoryInterface } from '../../utils/interfaces'
+import { openHistory } from '../../redux/ActionCreators/ControllerActions'
 import Typography from '@material-ui/core/Typography'
 import StockBoard from './StockBoard'
 
@@ -13,7 +14,11 @@ const StocksPage: React.FC<Props> = (props) => (
 		{ props.stocks && (
 			<div style={ gridStyle }>
 				{ Object.keys(props.stocks).map((key: string) => (
-					<StockBoard stock={ props.stocks[key] } key={ key } />
+					<StockBoard
+						stock={ props.stocks[key] }
+						openHistory={ props.openHistory }
+						key={ key }
+					/>
 				)) }
 			</div>
 		) }
@@ -21,7 +26,7 @@ const StocksPage: React.FC<Props> = (props) => (
 )
 
 const mapStateToProps = (state: RootReducerInterface) => ({ stocks: state.FinanceReducer.stocks })
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ openHistory }, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -56,7 +61,9 @@ interface StateProps {
 	stocks: StocksData
 }
 
-interface DispatchProps {}
+interface DispatchProps {
+	openHistory: OpenHistoryInterface
+}
 
 type Props = StateProps & DispatchProps & OwnProps
 

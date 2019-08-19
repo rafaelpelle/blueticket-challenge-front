@@ -13,6 +13,7 @@ export interface UserReducerInterface {
 
 export interface ControllerReducerInterface {
 	drawerIsOpen: boolean
+	historyIsOpen: boolean
 }
 
 export interface FinanceReducerInterface {
@@ -27,6 +28,8 @@ export type UserLoginInterface = (user: User) => { type: string; payload: User }
 export type UserLogoutInterface = () => { type: string }
 export type OpenDrawerInterface = () => { type: string }
 export type CloseDrawerInterface = () => { type: string }
+export type OpenHistoryInterface = () => { type: string }
+export type CloseHistoryInterface = () => { type: string }
 export type SetFinanceDataInterface = (data: any) => { type: string; payload: User }
 export type ClearFinanceDataInterface = () => { type: string }
 /////////////////////////////////////////////////////////////////

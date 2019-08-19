@@ -9,6 +9,7 @@ import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
 import DrawerMenu from '../components/DrawerMenu'
+import HistoryChart from '../components/HistoryChart'
 import Loader from '../components/Loader'
 import {
 	setStocksData,
@@ -66,6 +67,7 @@ const App: React.FC<Props> = (props) => {
 			<div>
 				<PageHeader />
 				<DrawerMenu />
+				<HistoryChart />
 				<Loader loading={ loading } />
 				{ !loading && (
 					<Switch>

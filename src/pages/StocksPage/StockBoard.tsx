@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Stock } from '../../utils/interfaces'
+import { Stock, OpenHistoryInterface } from '../../utils/interfaces'
 import { valueToPercentage } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -7,8 +7,12 @@ import Typography from '@material-ui/core/Typography'
 const CurrencyBoard: React.FC<Props> = (props) => {
 	const { name, location, points, variation } = props.stock
 
+	const handleClick = () => {
+		props.openHistory()
+	}
+
 	return (
-		<Paper elevation={ 6 } style={ paperStyle }>
+		<Paper elevation={ 6 } onClick={ handleClick } style={ paperStyle }>
 			<Typography align='center' color='primary' style={ nameStyle }>
 				{ name }
 			</Typography>
@@ -43,6 +47,7 @@ export default CurrencyBoard
 /////////////////////////////////////////////////////////////////
 const paperStyle = {
 	padding: '2em',
+	cursor: 'pointer',
 }
 const nameStyle = {
 	fontWeight: 700,
@@ -78,6 +83,7 @@ interface OwnState {}
 
 interface OwnProps {
 	stock: Stock
+	openHistory: OpenHistoryInterface
 }
 
 interface StateProps {}

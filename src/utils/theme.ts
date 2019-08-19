@@ -33,18 +33,21 @@ export const appTheme = createMuiTheme({
 			},
 		},
 		MuiDialog: {
+			root: {
+				padding: 0,
+			},
+			paper: {
+				margin: '0 auto',
+			},
 			paperScrollPaper: {
 				maxHeight: 'calc(100% - 50px)',
-				margin: '25px',
+			},
+			paperFullWidth: {
+				width: '100%',
 			},
 			container: {
 				height: `calc(100% - ${pageHeaderHeight})`,
 				marginTop: pageHeaderHeight,
-			},
-			paperFullScreen: {
-				top: '32px',
-				marginTop: '-' + pageHeaderHeight,
-				maxHeight: `100%`,
 			},
 		},
 		MuiCircularProgress: {

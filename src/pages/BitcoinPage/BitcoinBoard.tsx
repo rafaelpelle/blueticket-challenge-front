@@ -1,14 +1,18 @@
 import * as React from 'react'
-import { Cryptocurrency } from '../../utils/interfaces'
+import { Cryptocurrency, OpenHistoryInterface } from '../../utils/interfaces'
 import { handleMoneyFormat, valueToPercentage } from '../../utils/stringParser'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
-const CryptoBoard: React.FC<Props> = (props) => {
+const BitcoinBoard: React.FC<Props> = (props) => {
 	const { name, format, last, buy, sell, variation } = props.cryptocurrency
 
+	const handleClick = () => {
+		props.openHistory()
+	}
+
 	return (
-		<Paper elevation={ 6 } style={ paperStyle }>
+		<Paper elevation={ 6 } style={ paperStyle } onClick={ handleClick }>
 			<Typography align='center' color='primary' style={ nameStyle }>
 				{ name }
 			</Typography>
@@ -42,13 +46,14 @@ const CryptoBoard: React.FC<Props> = (props) => {
 	)
 }
 
-export default CryptoBoard
+export default BitcoinBoard
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////// STYLES ////////////////////////////
 /////////////////////////////////////////////////////////////////
 const paperStyle = {
 	padding: '2em',
+	cursor: 'pointer',
 }
 const nameStyle = {
 	fontWeight: 700,
@@ -84,6 +89,7 @@ interface OwnState {}
 
 interface OwnProps {
 	cryptocurrency: Cryptocurrency
+	openHistory: OpenHistoryInterface
 }
 
 interface StateProps {}
