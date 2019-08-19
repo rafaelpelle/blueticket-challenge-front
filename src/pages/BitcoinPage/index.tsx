@@ -5,28 +5,26 @@ import { RootReducerInterface, BitcoinData, HistoryData } from '../../utils/inte
 import Typography from '@material-ui/core/Typography'
 import BitcoinBoard from './BitcoinBoard'
 
-const CryptoPage: React.FC<Props> = (props) => (
-	<div style={ containerStyle }>
-		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-			COTAÇÃO DO BITCOIN
-		</Typography>
-		{ props.bitcoin && (
-			<div style={ gridStyle }>
-				{ Object.keys(props.bitcoin).map((key: string) => (
-					<BitcoinBoard
-						cryptocurrency={ props.bitcoin[key] }
-						key={ key }
-						keyName={ key }
-						history={ props.history }
-					/>
-				)) }
-			</div>
-		) }
-	</div>
-)
+const CryptoPage: React.FC<Props> = (props) => {
+	const bitcoin: BitcoinData = props.history[props.history.length - 1].value.bitcoin
+
+	return (
+		<div style={ containerStyle }>
+			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+				COTAÇÃO DO BITCOIN
+			</Typography>
+			{ bitcoin && (
+				<div style={ gridStyle }>
+					{ Object.keys(bitcoin).map((key: string) => (
+						<BitcoinBoard key={ key } keyName={ key } history={ props.history } />
+					)) }
+				</div>
+			) }
+		</div>
+	)
+}
 
 const mapStateToProps = (state: RootReducerInterface) => ({
-	bitcoin: state.FinanceReducer.bitcoin,
 	history: state.FinanceReducer.history,
 })
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
@@ -61,7 +59,6 @@ interface OwnState {}
 interface OwnProps {}
 
 interface StateProps {
-	bitcoin: BitcoinData
 	history: HistoryData
 }
 

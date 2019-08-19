@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography'
 import HistoryChart from '../../components/HistoryChart'
 
 const CurrencyBoard: React.FC<Props> = (props) => {
-	const { name, location, points, variation } = props.stock
+	const stock: Stock = props.history[props.history.length - 1].value.stocks[props.keyName]
+	const { name, location, points, variation } = stock
 	const [historyIsOpen, setHistoryIsOpen] = React.useState(false)
 
 	const toggleHistoryIsOpen = () => {
@@ -99,7 +100,6 @@ const negativeStyle = {
 interface OwnState {}
 
 interface OwnProps {
-	stock: Stock
 	keyName: string
 	history: HistoryData
 }

@@ -5,28 +5,26 @@ import { RootReducerInterface, StocksData, HistoryData } from '../../utils/inter
 import Typography from '@material-ui/core/Typography'
 import StockBoard from './StockBoard'
 
-const StocksPage: React.FC<Props> = (props) => (
-	<div style={ containerStyle }>
-		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-			BOLSA DE VALORES
-		</Typography>
-		{ props.stocks && (
-			<div style={ gridStyle }>
-				{ Object.keys(props.stocks).map((key: string) => (
-					<StockBoard
-						stock={ props.stocks[key] }
-						key={ key }
-						keyName={ key }
-						history={ props.history }
-					/>
-				)) }
-			</div>
-		) }
-	</div>
-)
+const StocksPage: React.FC<Props> = (props) => {
+	const stocks: StocksData = props.history[props.history.length - 1].value.stocks
+
+	return (
+		<div style={ containerStyle }>
+			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+				BOLSA DE VALORES
+			</Typography>
+			{ stocks && (
+				<div style={ gridStyle }>
+					{ Object.keys(stocks).map((key: string) => (
+						<StockBoard key={ key } keyName={ key } history={ props.history } />
+					)) }
+				</div>
+			) }
+		</div>
+	)
+}
 
 const mapStateToProps = (state: RootReducerInterface) => ({
-	stocks: state.FinanceReducer.stocks,
 	history: state.FinanceReducer.history,
 })
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
@@ -61,7 +59,6 @@ interface OwnState {}
 interface OwnProps {}
 
 interface StateProps {
-	stocks: StocksData
 	history: HistoryData
 }
 

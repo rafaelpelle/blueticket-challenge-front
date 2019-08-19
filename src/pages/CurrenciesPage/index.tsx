@@ -5,28 +5,26 @@ import { RootReducerInterface, CurrenciesData, HistoryData } from '../../utils/i
 import Typography from '@material-ui/core/Typography'
 import CurrencyBoard from './CurrencyBoard'
 
-const CurrenciesPage: React.FC<Props> = (props) => (
-	<div style={ containerStyle }>
-		<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
-			COTAÇÃO DAS MOEDAS
-		</Typography>
-		{ props.currencies && (
-			<div style={ gridStyle }>
-				{ Object.keys(props.currencies).map((key: string) => (
-					<CurrencyBoard
-						currency={ props.currencies[key] }
-						key={ key }
-						keyName={ key }
-						history={ props.history }
-					/>
-				)) }
-			</div>
-		) }
-	</div>
-)
+const CurrenciesPage: React.FC<Props> = (props) => {
+	const currencies: CurrenciesData = props.history[props.history.length - 1].value.currencies
+
+	return (
+		<div style={ containerStyle }>
+			<Typography variant='h4' color='primary' align='center' style={ headerStyle }>
+				COTAÇÃO DAS MOEDAS
+			</Typography>
+			{ currencies && (
+				<div style={ gridStyle }>
+					{ Object.keys(currencies).map((key: string) => (
+						<CurrencyBoard key={ key } keyName={ key } history={ props.history } />
+					)) }
+				</div>
+			) }
+		</div>
+	)
+}
 
 const mapStateToProps = (state: RootReducerInterface) => ({
-	currencies: state.FinanceReducer.currencies,
 	history: state.FinanceReducer.history,
 })
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch)
@@ -61,7 +59,6 @@ interface OwnState {}
 interface OwnProps {}
 
 interface StateProps {
-	currencies: CurrenciesData
 	history: HistoryData
 }
 

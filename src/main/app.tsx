@@ -10,19 +10,14 @@ import { history } from '../router/history'
 import MyRoutes from '../router/myRoutes'
 import PageHeader from '../components/PageHeader'
 import DrawerMenu from '../components/DrawerMenu'
-import Loader from '../components/Loader'
-import {
-	setStocksData,
-	setCurrenciesData,
-	setBitcoinData,
-	setHistoryData,
-} from '../redux/ActionCreators/FinanceActions'
+// import Loader from '../components/Loader'
+import { setHistoryData } from '../redux/ActionCreators/FinanceActions'
 
 require('./app.css')
 
 const App: React.FC<Props> = (props) => {
 	const [user, setUser] = React.useState<User | null>(null)
-	const [loading, setLoading] = React.useState(false)
+	// const [loading, setLoading] = React.useState(false)
 	const [intervalId, setIntervalId] = React.useState(null)
 
 	React.useEffect(() => {
@@ -51,7 +46,6 @@ const App: React.FC<Props> = (props) => {
 	const getFinanceData = async () => {
 		// setLoading(true)
 		try {
-			const { setStocksData, setCurrenciesData, setBitcoinData, setHistoryData } = props
 			const response = await axios.get(`${FINANCE_URL}?format=json-cors&key=${FINANCE_KEY}`)
 			// const response = { data: require('../utils/hardcodedData.json') }
 			delete response.data.results.currencies.source
@@ -59,10 +53,10 @@ const App: React.FC<Props> = (props) => {
 			delete response.data.results.bitcoin.xdex
 			delete response.data.results.bitcoin.foxbit
 			delete response.data.results.bitcoin.coinbase
-			setHistoryData({ value: response.data.results, date: handleTimeFormat(new Date()) })
-			setStocksData(response.data.results.stocks)
-			setCurrenciesData(response.data.results.currencies)
-			setBitcoinData(response.data.results.bitcoin)
+			props.setHistoryData({
+				value: response.data.results,
+				date: handleTimeFormat(new Date()),
+			})
 		} catch (e) {
 			console.error(e)
 		}
@@ -74,7 +68,7 @@ const App: React.FC<Props> = (props) => {
 			<div>
 				<PageHeader />
 				<DrawerMenu />
-				<Loader loading={ loading } />
+				{ /* <Loader loading={ loading } /> */ }
 				<Switch>
 					<MyRoutes user={ user } />
 				</Switch>
@@ -86,11 +80,7 @@ const App: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootReducerInterface) => ({
 	user: state.UserReducer.user,
 })
-const mapDispatchToProps = (dispatch: any) =>
-	bindActionCreators(
-		{ setStocksData, setCurrenciesData, setBitcoinData, setHistoryData },
-		dispatch
-	)
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ setHistoryData }, dispatch)
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
@@ -114,9 +104,6 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	setStocksData: SetFinanceDataInterface
-	setCurrenciesData: SetFinanceDataInterface
-	setBitcoinData: SetFinanceDataInterface
 	setHistoryData: SetFinanceDataInterface
 }
 
